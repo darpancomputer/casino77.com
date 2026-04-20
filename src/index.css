@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+@theme {
+  --color-himalaya-red: #b91c1c;
+  --color-himalaya-gold: #fbbf24;
+  --color-himalaya-dark: #111827;
+  --color-himalaya-accent: #f97316;
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  --animate-marquee: marquee 20s linear infinite;
+}
+
+@layer base {
+  body {
+    @apply bg-white text-gray-900 font-sans;
+    background-image: none;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-gray-100;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-himalaya-red/40 rounded-full hover:bg-himalaya-red;
+  }
+}
+
+@layer components {
+  .glass-panel {
+    @apply bg-white border border-gray-200 rounded-3xl shadow-xl;
+  }
+  
+  .btn-primary {
+    @apply px-4 py-2 bg-himalaya-red text-white font-bold rounded-lg hover:bg-red-700 transition-all active:scale-95 text-sm uppercase tracking-wider;
+  }
+
+  .btn-secondary {
+    @apply px-4 py-2 bg-himalaya-accent text-white font-bold rounded-lg hover:bg-orange-600 transition-all active:scale-95 text-sm uppercase tracking-wider;
+  }
+
+  .btn-success {
+    @apply px-4 py-2 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 transition-all active:scale-95 text-sm uppercase tracking-wider;
+  }
+}
+
+.marquee-container {
+  @apply overflow-hidden whitespace-nowrap bg-himalaya-red/20 border-y border-himalaya-gold/30 py-1;
+}
+
+.marquee-content {
+  @apply inline-block animate-marquee text-himalaya-gold font-bold text-xs;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+.animate-marquee {
+  animation: marquee 20s linear infinite;
+}

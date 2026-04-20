@@ -1,0 +1,97 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "Stores user profile information, balance, and role.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "displayName": { "type": "string", "description": "User's full name" },
+        "email": { "type": "string", "format": "email", "description": "User's email" },
+        "phoneNumber": { "type": "string", "description": "User's mobile number" },
+        "balance": { "type": "number", "description": "Current wallet balance" },
+        "role": { "type": "string", "enum": ["user", "admin"], "description": "User role" },
+        "bankName": { "type": "string", "description": "User's bank name" },
+        "bankAccountNumber": { "type": "string", "description": "User's bank account number" },
+        "bankAccountName": { "type": "string", "description": "User's bank account holder name" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Account creation time" }
+      },
+      "required": ["uid", "displayName", "email", "role", "balance"]
+    },
+    "Transaction": {
+      "title": "Transaction",
+      "description": "Records of deposits and withdrawals.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "UID of the user" },
+        "type": { "type": "string", "enum": ["deposit", "withdrawal"], "description": "Transaction type" },
+        "amount": { "type": "number", "description": "Transaction amount" },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected"], "description": "Transaction status" },
+        "bankInfo": { "type": "object", "description": "Bank details for the transaction" },
+        "receiptUrl": { "type": "string", "description": "URL to the uploaded receipt image" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Transaction time" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Last update time" }
+      },
+      "required": ["userId", "type", "amount", "status", "createdAt"]
+    },
+    "Game": {
+      "title": "Game",
+      "description": "Information about available games.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "category": { "type": "string", "enum": ["slot", "casino", "sport", "fishing"] },
+        "imageUrl": { "type": "string" },
+        "provider": { "type": "string" },
+        "isActive": { "type": "boolean" }
+      },
+      "required": ["name", "category", "isActive"]
+    },
+    "Promotion": {
+      "title": "Promotion",
+      "description": "Active promotions and bonuses.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "bonusPercentage": { "type": "number" },
+        "isActive": { "type": "boolean" }
+      },
+      "required": ["title", "isActive"]
+    },
+    "GameSettings": {
+      "title": "Game Settings",
+      "description": "Adjustable multipliers for each slot game.",
+      "type": "object",
+      "properties": {
+        "jpMultiplier": { "type": "number" },
+        "megaMultiplier": { "type": "number" },
+        "winMultiplier": { "type": "number" }
+      }
+    }
+  },
+  "firestore": {
+    "users/{userId}": {
+      "schema": { "$ref": "UserProfile" },
+      "description": "User profile documents"
+    },
+    "transactions/{transactionId}": {
+      "schema": { "$ref": "Transaction" },
+      "description": "Transaction records"
+    },
+    "games/{gameId}": {
+      "schema": { "$ref": "Game" },
+      "description": "Game catalog"
+    },
+    "promotions/{promoId}": {
+      "schema": { "$ref": "Promotion" },
+      "description": "Promotion list"
+    },
+    "gameSettings/{gameId}": {
+      "schema": { "$ref": "GameSettings" },
+      "description": "Slot game multipliers"
+    }
+  }
+}

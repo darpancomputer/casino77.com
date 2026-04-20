@@ -1,0 +1,49 @@
+{
+  "rules": {
+    ".read": "auth != null && (auth.token.email === 'sundarrawal132@gmail.com' || auth.token.email === 'admin@himalaya.com' || root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('admins').child(auth.uid).exists())",
+    ".write": "auth != null && (auth.token.email === 'sundarrawal132@gmail.com' || auth.token.email === 'admin@himalaya.com' || root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('admins').child(auth.uid).exists())",
+    
+    "users": {
+      ".indexOn": ["role", "balance"],
+      ".read": "auth != null && (auth.token.email === 'sundarrawal132@gmail.com' || auth.token.email === 'admin@himalaya.com' || root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('admins').child(auth.uid).exists())",
+      "$uid": {
+        ".read": "auth.uid === $uid",
+        ".write": "auth.uid === $uid"
+      }
+    },
+    "transactions": {
+      ".indexOn": ["createdAt", "userId", "status"],
+      ".read": "(auth != null && (auth.token.email === 'sundarrawal132@gmail.com' || auth.token.email === 'admin@himalaya.com' || root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('admins').child(auth.uid).exists())) || (auth != null && query.orderBy === 'userId' && query.equalTo === auth.uid) || (query.orderBy === 'status' && query.equalTo === 'approved')",
+      ".write": "auth != null"
+    },
+    "chats": {
+      "$uid": {
+        ".read": "auth.uid === $uid",
+        ".write": "auth.uid === $uid"
+      }
+    },
+    "settings": {
+      ".read": true
+    },
+    "notifications": {
+      "$uid": {
+        ".read": "auth.uid === $uid",
+        ".write": "auth.uid === $uid"
+      }
+    },
+    "gameSettings": {
+      ".read": true
+    },
+    "activeSessions": {
+      "$uid": {
+        ".read": "auth.uid === $uid",
+        ".write": "auth.uid === $uid"
+      }
+    },
+    "public_chat": {
+      ".read": true,
+      ".write": "auth != null",
+      ".indexOn": ["createdAt"]
+    }
+  }
+}
